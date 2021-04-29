@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-blue">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/dashboard">Paquete</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/createVale">Vale</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Vale prioritario</a>
+            </li>
+        </ul>
+        <button class="btn btn-light text-blue my-2 my-sm-0" type="submit">Cerrar sesión</button>
+
+    </div>
+</nav>
+
+<app-paquetes></app-paquetes>
+
+<button #btnModal type="button" class="d-none" data-toggle="modal" data-target="#changePassword"></button>
+
+<div class="modal fade" id="changePassword" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="changePasswordTitle" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="mx-auto m-0" id="changePasswordTitle">Cambiar contraseña</h5>
+                <button #closeModalChangePassword type="button" class="d-none" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="changePassword()" [formGroup]="changePasswordForm">
+                    <input type="password" class="form-control" formControlName="newPassword"
+                        placeholder="Contraseña nueva">
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary btn-large">Cambiar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

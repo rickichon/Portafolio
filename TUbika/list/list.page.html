@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col pr-0">
+          <form class="form-inline my-2 my-lg-0" id="inputSearch" #inputSearch="ngForm">
+            <div class="input-group">
+
+              <div class="col-1 pl-0 pr-4">
+                <a (click)="goToCatalog()" class="nav-link-i text-white">
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+              </div>
+
+              <div class="input-group-prepend">
+                <div class="input-group-text bg-blackRed border-0 p-2 rounded-left">
+                  <i (click)="searchList()" class="fas fa-search text-white"></i></div>
+              </div>
+
+              <input ngModel class="form-control bg-blackRed text-white rounded-right pl-1" type="search" name="search"
+                [value]="contentSearch" placeholder="Buscar" aria-label="Buscar">
+
+            </div>
+          </form>
+        </div>
+        <div class="col-2 p-0 text-center">
+          <span class="navbar-brand m-0 icon-marca-white">
+            <ion-icon slot="icon-only" class="icon-size-lg" src="assets/icons-search-navigation/t_ubika_marca_1SVG.svg">
+            </ion-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding d-flex">
+  <div class="container h-100 p-0">
+
+    <div class="dropdown text-center">
+      <button class="btn btn-blackRed text-white rounded dropdown-toggle mb-2" style="width: 225px;" type="button"
+        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <ng-container *ngIf="!zonaComercial">
+          ¿Dónde?
+        </ng-container>
+        <ng-container>
+          {{zonaComercial}}
+        </ng-container>
+      </button>
+      <div class="dropdown-menu dropdown-options dropdown-options-left bg-red rounded-bottom"
+        aria-labelledby="dropdownMenuButton">
+        <p *ngIf="zonaComercial" (click)="setZoneDefault()" class="dropdown-item text-white py-2">
+          <ion-icon slot="icon-only" src="assets/icons-search-navigation/zonas.svg"></ion-icon>
+          ¿Dónde?
+        </p>
+        <p (click)="setZone(item)" class="dropdown-item text-white py-2" *ngFor="let item of zonasComerciales">
+          <ion-icon slot="icon-only" src="assets/icons-search-navigation/zonas.svg"></ion-icon>
+          {{item?.ComercialZone?.name}}
+        </p>
+      </div>
+    </div>
+
+    <!-- ITEMS BUSQUEDA   -->
+    <div *ngFor="let company of companys" class="row mt-2">
+      <div class="col mb-1">
+        <div class="card mb-3 no-border" style="max-width: 540px;">
+          <div class="row no-gutters" (click)="goToDetail(company.Company.id, company.Company.name)">
+            <div class="col-4">
+              <img [src]="'assets/'+company.Company.img" class="img-list rounded" alt="pizza">
+            </div>
+            <div class="col-8 border border-left-0 border-right-0 border-orange">
+              <div class="card-body p-0 pt-1">
+                <h5 class="card-title m-0 text-darkBlue font-weight-bold">
+                  {{company.Company.name}}
+                </h5>
+                <p class="card-text text-darkBlue">
+                  {{company.Company.address}}, {{company.ComercialZone.name}}
+                </p>
+                <div class="inline-block text-orange float-right">
+
+                  <span style="font-size: 17px;" class="mr-1">{{company.Company.likes}}</span>
+                  <ion-icon slot="icon-only" class="icon-size" src="assets/icons-search-navigation/like_contorno.svg">
+                  </ion-icon>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

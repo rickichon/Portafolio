@@ -1,0 +1,117 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+
+    <ion-buttons slot="start">
+      <ion-back-button slot="icon-only" [defaultHref]="defaultHref" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+
+    <nav class="nav justify-content-center position-absolute absolute-center">
+      <h2 class="font-weight-bold text-darkBlue my-auto">Mi perfil</h2>
+    </nav>
+
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content color="tertiary" class="ion-padding d-flex"> -->
+<ion-content color="tertiary" class="d-flex">
+
+  <!-- <div class="container h-100"> -->
+  <div class="container h-100 p-0">
+
+    <ng-container *ngIf="editProfile">
+      <div class="row justify-content-center">
+        <div class="text-center position-relative">
+          <img src="../../../assets/recuadro.png" class="rounded mx-auto d-block mt-4 img-profile" alt="...">
+          <img (click)="changeAvatar()" src="../../../assets/icons-usuario/cambiar_avatar_botonSVG.svg"
+            class="img-change-avatar">
+        </div>
+      </div>
+
+      <div class="row px-5 mt-4">
+        <form (ngSubmit)="updateProfile()" id="udtProfile" #udtProfile="ngForm" autocomplete="off" novalidate
+          style="width: 100%;">
+
+          <div class="form-group">
+            <label for="userName">Nombre de usuario:</label>
+            <input ngModel type="text" class="form-control rounded bg-input" id="userName" name="userName">
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Sexo:</label>
+            <select ngModel class="form-control rounded bg-input" name="gender" id="gender">
+              <option disabled="" class="bg-opt-register" value="">Seleccionar</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input ngModel type="email" class="form-control rounded bg-input" id="email" name="email">
+          </div>
+
+          <div class="form-group">
+            <label for="re_password">Cambiar contraseña:</label>
+            <input ngModel type="password" class="form-control rounded bg-input" id="re_password" name="re_password">
+          </div>
+
+          <div class="form-group">
+            <label for="zone">Zona:</label>
+            <select ngModel class="form-control rounded bg-input" name="zone" id="zone">
+              <option disabled="" class="bg-opt-register" value="">¿Dónde?</option>
+              <option *ngFor="let zona of zonasComerciales" [value]="zona.ComercialZone.name">
+                {{zona.ComercialZone.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-red btn-block text-white rounded">Aceptar</button>
+          </div>
+
+        </form>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!editProfile">
+      <div class="row justify-content-center">
+        <div class="text-center">
+          <img src="../../../assets/recuadro.png" class="rounded mx-auto d-block mt-4" style="width: 138px !important;"
+            alt="...">
+          <p (click)="goToEditProfile()" style="text-decoration: underline; font-size: 14px;">Editar perfil</p>
+        </div>
+      </div>
+
+      <div class="row px-5 mt-4">
+        <div class="form-group" style="width: 100%;">
+          <label for="userName">Nombre de usuario:</label>
+          <input type="text" class="form-control rounded bg-input font-weight-bold" value="{{usuario?.username}}"
+            readonly>
+        </div>
+        <div class="form-group">
+          <label for="userName">Zona:</label>
+          <input type="text" class="form-control rounded bg-input font-weight-bold" value="{{usuario?.comercial_zones}}"
+            readonly>
+        </div>
+      </div>
+
+      <div class="row justify-content-center px-5 mt-4">
+        <div class="col-6 text-center pl-0">
+          <img (click)="goToMyBusiness()" class="rounded img-profile"
+            src="../../../assets/icons-usuario/mis_negocios_guardados_icono720 px.png" style="width: 138px !important;"
+            alt="">
+        </div>
+        <div class="col-6 text-center pr-0">
+          <img (click)="goToMyRewards()" class="rounded img-profile"
+            src="../../../assets/icons-usuario/mis_recompensas_icono720 px.png" style="width: 138px !important;" alt="">
+        </div>
+        <div class="row justify-content-center mt-5">
+          <div class="col-12 text-center text-white" >
+            <button (click)="cerrarSesion()" class="btn btn-danger" >Cerrar Sesion</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+
+</ion-content>

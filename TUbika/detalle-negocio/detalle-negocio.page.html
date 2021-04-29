@@ -1,0 +1,256 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-back-button slot="icon-only" defaultHref="tabs/list/" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+
+    <nav class="nav justify-content-center position-absolute absolute-center">
+      <img src="assets/icons-search-navigation/t_ubika_marca_1SVG.svg" style="width: 24px;" />
+    </nav>
+
+    <ion-buttons slot="end">
+      <ion-icon *ngIf="saveCompany"  (click)="saveUserCompany()"  class="mx-1" slot="icon-only" src="assets/icons-search-navigation/guardado_2SVG.svg"></ion-icon>
+       <ion-icon *ngIf="!saveCompany"  (click)="saveUserCompany()"  src="assets/icons-search-navigation/guardado_1SVG.svg" class="mx-1" slot="icon-only" name=""></ion-icon>
+
+      <ng-container *ngIf="!likeCompany">
+        <ion-icon (click)="like()" class="mx-1" slot="icon-only" src="assets/icons-search-navigation/like_1_1SVG.svg">
+        </ion-icon>
+      </ng-container>
+
+      <ng-container *ngIf="likeCompany">
+        <ion-icon (click)="like()" class="mx-1" slot="icon-only" src="assets/icons-search-navigation/like_1SVG.svg">
+        </ion-icon>
+      </ng-container>
+
+      <ion-icon (click)="share()" class="mx-1" slot="icon-only" name="share-outline"></ion-icon>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-slides pager="true" class="obj-cover rounded" [options]="slideOpts"
+    style="height: 210px; background-color: #7c7c7c;">
+    <ion-slide>
+      <h1>Slide 1</h1>
+    </ion-slide>
+    <ion-slide>
+      <h1>Slide 2</h1>
+    </ion-slide>
+    <ion-slide>
+      <h1>Slide 3</h1>
+    </ion-slide>
+  </ion-slides>
+
+  <div class="row">
+    <div class="col-12 text-center m-1">
+      <h3 class="font-weight-bold text-orange"> {{negocio?.Company?.name}} </h3>
+      <div class="dropdown-divider"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-justify m-1 px-4">
+      <h3 class="m-0">Descripción</h3>
+      <p> {{negocio?.Company?.description}} </p>
+    </div>
+    <div class="col-12">
+      <div class="dropdown-divider"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-justify m-1 px-4">
+      <h3 class="mt-0">Dirección y horario</h3>
+
+      <div class="row">
+        <table class="table table-borderless mb-0">
+          <tbody>
+            <tr>
+              <td class="align-middle text-center">
+                <ion-icon class="icon-size-lg" slot="icon-only" src="assets/icons-negocio/ubicacionSVG.svg"></ion-icon>
+              </td>
+              <td class="align-middle">
+                <p> {{negocio?.Company?.address}} </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle text-center">
+                <ion-icon class="icon-size-lg" slot="icon-only" src="assets/icons-negocio/horarioSVG.svg"></ion-icon>
+              </td>
+              <td class="align-middle">
+                <p> {{negocio?.Company?.schedule}} </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="col-12">
+      <div class="dropdown-divider"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-justify m-1 px-4">
+      <h3 class="mb-3">Contactos</h3>
+      <div class="row justify-content-center">
+
+        <ng-container *ngIf="negocio?.CompanyContact.length === 0">
+          <h4>No cuenta con formas de contacto.</h4>
+        </ng-container>
+
+        <div class="mx-3 mb-3" style="width: 100%;">
+          <!-- VERIRIFICAR LA CONDICIÓN -->
+          <div
+            *ngIf="negocio?.CompanyContact[0]?.value > 0 && negocio?.CompanyContact[0]?.contact_id == 1 || negocio?.CompanyContact[0]?.contact_id == 2">
+            <a class="text-dark a-tel" [href]="'tel:+52'+negocio?.CompanyContact[0]?.value">
+              Tel: {{negocio?.CompanyContact[0].value}}
+            </a>
+          </div>
+          <div *ngIf="negocio?.CompanyContact[1]?.value > 0 && negocio?.CompanyContact[1]?.contact_id == 3">
+            <a class="text-dark a-tel" [href]="'tel:+52'+negocio?.CompanyContact[1]?.value">
+              Cel: {{negocio?.CompanyContact[1].value}}
+            </a>
+          </div>
+        </div>
+
+        <ng-container *ngFor="let item of negocio?.CompanyContact" [ngSwitch]="item.contact_id">
+
+          <ng-container *ngSwitchCase="1">
+            <a [href]="'tel:+52'+item.value">
+              <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+                src="assets/icons-negocio/telefono_iconoSVG.svg">
+              </ion-icon>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="3">
+            <a
+              [href]="'https://api.whatsapp.com/send?phone=52'+item.value+'&text=Hola!%20Te%20encontr%C3%A9%20desde%20T-UBIKA!'">
+              <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+                src="assets/icons-negocio/whatsapp_iconoSVG.svg">
+              </ion-icon>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="4">
+            <a [href]="item.value" target="_blank" rel="noopener noreferrer">
+              <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+                src="assets/icons-negocio/facebool_iconoSVG.svg">
+              </ion-icon>
+            </a>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="5">
+            <a [href]="item.value" target="_blank" rel="noopener noreferrer">
+              <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+                src="assets/icons-negocio/instagram_iconoSVG.svg">
+              </ion-icon>
+            </a>
+          </ng-container>
+
+        </ng-container>
+
+        <!-- <ion-icon class="rounded icon-size-xl mx-3 text-phone" slot="icon-only" name="call-outline">
+        </ion-icon>
+        <ion-icon class="rounded icon-size-xl mx-3 text-whatsapp" slot="icon-only" name="logo-whatsapp">
+        </ion-icon>
+        <ion-icon class="rounded icon-size-xl mx-3 text-fb" slot="icon-only" name="logo-facebook">
+        </ion-icon>
+        <ion-icon class="rounded icon-size-xl mx-3 text-insta" slot="icon-only" name="logo-instagram">
+        </ion-icon> -->
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="dropdown-divider"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-justify m-1 px-4">
+      <h3 class="mb-3">Pedidos</h3>
+      <div class="row justify-content-center">
+
+        <ng-container *ngIf="negocio?.CompanyService.length === 0">
+          <h4>No cuenta con servicio de pedidos.</h4>
+        </ng-container>
+
+        <ng-container *ngFor="let item of negocio?.CompanyService" [ngSwitch]="item.service_types_id">
+
+          <ng-container *ngSwitchCase="1">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/servicio_propio_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="2">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/didi_food_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="3">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/uber_eats_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="4">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only" src="assets/icons-negocio/rappi_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+        </ng-container>
+
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="dropdown-divider"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-justify m-1 px-4">
+      <h3 class="mb-2">Métodos de pago</h3>
+      <div class="row justify-content-center">
+
+        <ng-container *ngIf="negocio?.CompanyPayment.length === 0">
+          <h4>No cuenta con métodos de pago.</h4>
+        </ng-container>
+
+        <ng-container *ngFor="let item of negocio?.CompanyPayment" [ngSwitch]="item.payment_type_id">
+
+          <ng-container *ngSwitchCase="1">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/efectivo_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="2">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/didi_food_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="3">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only"
+              src="assets/icons-negocio/tarjeta_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="4">
+            <ion-icon class="rounded icon-size-xl mx-3" slot="icon-only" src="assets/icons-negocio/paypal_iconoSVG.svg">
+            </ion-icon>
+          </ng-container>
+
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+
+</ion-content>
